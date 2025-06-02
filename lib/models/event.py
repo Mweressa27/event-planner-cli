@@ -1,14 +1,15 @@
-from sqlalchemy import Column, Integer, String, Date
+from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import relationship
-from .base import Base
+from . import Base
 
 class Event(Base):
     __tablename__ = 'events'
+
     id = Column(Integer, primary_key=True)
-    title = Column(String)
-    location = Column(String)
+    name = Column(String)
+    description = Column(String)
     date = Column(Date)
-    rsvps = relationship("RSVP", back_populates="event", cascade="all, delete")
-    
-    def __repr__(self):
-        return f"<Event {self.title} on {self.date}>"
+    venue_id = Column(Integer, ForeignKey('venues.id'))
+
+    venue = relationship("Venue", back_populates="events")
+    guests = relationship("EventGuest", back_populates="event")

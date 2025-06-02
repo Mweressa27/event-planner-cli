@@ -1,7 +1,7 @@
 # Event Planner CLI App
 
 # Database Schema Link
-
+https://dbdiagram.io/d/Event-Planner-Phase-3-Project-683435e50240c65c4437b967
 
 # Project Demo Link
 
@@ -11,9 +11,9 @@ A Command Line Interface (CLI) app to plan events, manage guests and venues.
 
 ## Setup Instructions
 - Clone repo
-- Run `pipenv install`
-- Run `alembic upgrade head` to set up DB
-- Run `python app.py` to start CLI
+- Run `pipenv install` and `python shell`
+- Run `python lib/debug.py`
+- Run `PYTHONPATH=. python lib/cli.py` to start CLI
 
 ## Features
 - Create, update, and delete events, guests, and venues
@@ -25,7 +25,6 @@ A Command Line Interface (CLI) app to plan events, manage guests and venues.
 - SQLAlchemy
 - Alembic
 - Pipenv
-- Python Fire
 
 ## License
 MIT License

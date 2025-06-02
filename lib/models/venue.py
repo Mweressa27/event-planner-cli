@@ -2,12 +2,12 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 from . import Base
 
-class Guest(Base):
-    __tablename__ = 'guests'
+class Venue(Base):
+    __tablename__ = 'venues'
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
-    email = Column(String)
-    phone = Column(String)
+    location = Column(String)
+    capacity = Column(Integer)
 
-    events = relationship("EventGuest", back_populates="guest")
+    events = relationship("Event", back_populates="venue")

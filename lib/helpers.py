@@ -1,48 +1,77 @@
-from lib.models import Session, Event, Guest, RSVP
-from datetime import date
+from models import session
+from models.event import Event
+from models.guest import Guest
+from models.venue import Venue
+from models.event_guest import EventGuest
+from datetime import datetime
 
-session = Session()
+# EVENTS
+def create_event():
+    name = input("Event name: ")
+    description = input("Description: ")
+    date_str = input("Date (YYYY-MM-DD): ")
+    date = datetime.strptime(date_str, "%Y-%m-%d").date()
+    venue_id = int(input("Venue ID: "))
+    event = Event(name=name, description=description, date=date, venue_id=venue_id)
+    session.add(event)
+    session.commit()
+    print(f"Event '{name}' created!")
 
-class EventPlanner:
-    def create_event(self, title, location, date):
-        e = Event(title=title, location=location, date=date)
-        session.add(e)
-        session.commit()
-        print(f"✅ Created event: {e}")
+def list_events():
+    events = session.query(Event).all()
+    for event in events:
+        print(f"{event.id}: {event.name} on {event.date} @ Venue ID {event.venue_id}")
 
-    def list_events(self):
-        for e in session.query(Event).all():
-            print(e)
+# GUESTS
+def add_guest():
+    name = input("Guest name: ")
+    email = input("Email: ")
+    phone = input("Phone number: ")
+    guest = Guest(name=name, email=email, phone=phone)
+    session.add(guest)
+    session.commit()
+    print(f"Guest '{name}' added.")
 
-    def add_guest(self, name, email):
-        g = Guest(name=name, email=email)
-        session.add(g)
-        session.commit()
-        print(f"✅ Guest added: {g}")
+def list_guests():
+    guests = session.query(Guest).all()
+    for guest in guests:
+        print(f"{guest.id}: {guest.name} | {guest.email} | {guest.phone}")
 
-    def list_guests(self):
-        for g in session.query(Guest).all():
-            print(g)
+# VENUES
+def add_venue():
+    name = input("Venue name: ")
+    location = input("Location: ")
+    capacity = input("Capacity: ")
+    venue = Venue(name=name, location=location, capacity=int(capacity))
+    session.add(venue)
+    session.commit()
+    print(f"Venue '{name}' added.")
 
-    def rsvp(self, guest_id, event_id, status="yes"):
-        r = RSVP(guest_id=guest_id, event_id=event_id, status=status)
-        session.add(r)
-        session.commit()
-        print(f"✅ RSVP: {r}")
+def list_venues():
+    venues = session.query(Venue).all()
+    for venue in venues:
+        print(f"{venue.id}: {venue.name} | {venue.location} | Capacity: {venue.capacity}")
 
-    def show_event_guests(self, event_id):
-        event = session.get(Event, event_id)
-        if event:
-            for r in event.rsvps:
-                print(f"{r.guest.name} - {r.status}")
-        else:
-            print("❌ Event not found.")
+# RSVPs
+def rsvp_guest_to_event():
+    list_guests()
+    guest_id = int(input("Enter Guest ID: "))
+    list_events()
+    event_id = int(input("Enter Event ID: "))
+    rsvp = EventGuest(guest_id=guest_id, event_id=event_id)
+    session.add(rsvp)
+    session.commit()
+    print("RSVP recorded.")
 
-    def delete_event(self, event_id):
-        event = session.get(Event, event_id)
-        if event:
-            session.delete(event)
-            session.commit()
-            print("🗑️ Event deleted.")
-        else:
-            print("❌ Not found.")
+def list_event_attendees():
+    list_events()
+    event_id = int(input("Enter Event ID: "))
+    rsvps = session.query(EventGuest).filter_by(event_id=event_id).all()
+    for rsvp in rsvps:
+        guest = session.query(Guest).get(rsvp.guest_id)
+        print(f"{guest.name} | {guest.email}")
+
+# Exit
+def exit_program():
+    print("Goodbye!")
+    exit()
