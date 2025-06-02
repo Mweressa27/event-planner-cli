@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
-from . import Base
+from .base import Base
 
 class Guest(Base):
     __tablename__ = 'guests'
