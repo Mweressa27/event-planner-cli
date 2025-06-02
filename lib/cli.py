@@ -64,7 +64,7 @@ def main():
                 print("❌ Invalid input.")
     except KeyboardInterrupt:
         session.close()
-        print("\n👋 Exiting gracefully...")
+        print("\n👋 Exiting...")
 
 if __name__ == "__main__":
     main()

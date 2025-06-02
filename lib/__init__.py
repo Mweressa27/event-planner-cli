@@ -1,5 +1,3 @@
-# lib/setup_db.py
-
 from models import Base, engine
 from models.event import Event
 from models.guest import Guest
