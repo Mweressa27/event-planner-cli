@@ -12,8 +12,8 @@ A Command Line Interface (CLI) app to plan events, manage guests and venues.
 ## Setup Instructions
 - Clone repo
 - Run `pipenv install` and `python shell`
-- Run `python lib/debug.py`
-- Run `PYTHONPATH=. python lib/cli.py` to start CLI
+- Run `PYTHONPATH=. python3 lib/seed.py`
+- Run `PYTHONPATH=. python3 lib/cli.py` to start CLI
 
 ## Features
 - Create, update, and delete events, guests, and venues
